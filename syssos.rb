@@ -1,0 +1,87 @@
+#!/usr/bin/ruby -w
+require_relative("base")
+require_relative("foreman")
+require_relative("colors")
+require ('optparse')
+
+	@sosreport_path = "/home/supatil/sosreport-satellite65-2019-02-17-olenjmp"
+
+	options = {}
+
+	OptionParser.new do |opt|
+	  opt.on('--basic', 'This gives the basic information from sos report') { |o| options[:basic] = o }
+	  opt.on('--foreman', 'Information from the foreman-debug') { |o| options[:foreman] = o }
+	end.parse!
+
+	puts options[:basic]
+
+	print "================================= ".bg_cyan
+	print " SOS report from #{File.read(@sosreport_path + "/date").chomp} ".bold
+	puts " =================================".bg_cyan
+
+
+
+
+
+
+	def basicinfo
+		x = Base::Basicinfo.new(@sosreport_path);
+		puts "\n\n"
+
+
+
+		puts "\n\n"
+		puts "Hostname = #{ x.get_hostname().chomp }".bold
+		puts "Satellite Version = #{x.satellite_version}".bold
+		puts "RHEL version = #{x.rhel_version.chomp}".bold
+		puts "Registration URL = #{ x.registered_to }".bold
+
+		puts "\n------------------------------- Disk Utilization  -------------------------------".red.bold
+		x.disk_utilization
+		puts "\n--------------------------------------------------------------------------------\n\n".red.bold
+
+		puts "\n------------------------------- /tmp mount point  -------------------------------".red.bold
+		puts x.check_mount_point
+		puts "\n---------------------------------------------------------------------------------".red.bold
+
+		puts "\n"
+		
+	end
+
+
+	def foremaninfo
+
+		x = Base::Basicinfo.new(@sosreport_path);
+		foreman = Foreman::Foremaninfo.new(@sosreport_path);
+
+		puts "\n\n"
+		puts "Hostname = #{ x.get_hostname().chomp }".bold
+		puts "Satellite Version = #{x.satellite_version}".bold
+		puts "RHEL version = #{x.rhel_version.chomp}".bold
+		puts "Registration URL = #{ x.registered_to }".bold
+		puts "Puppet Version = #{ foreman.version_puppet }".bold
+		puts "\n\n"
+
+		
+		foreman.foreman_service_status
+
+		foreman.hammer_ping
+
+
+		
+	end
+
+
+	case options
+	when -> (h) { h[:basic] == true }
+	  #print('basic option selected')
+	  basicinfo
+	when -> (h) { h[:foreman] == true }
+	  foremaninfo
+	else
+	  puts "nothingggggggggggggggg \n"
+	end
+	
+
+
+	puts "====================================================================================================================".bg_cyan
