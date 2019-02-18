@@ -4,7 +4,8 @@ require_relative("foreman")
 require_relative("colors")
 require ('optparse')
 
-	@sosreport_path = "/home/supatil/sosreport-satellite65-2019-02-17-olenjmp"
+	#@sosreport_path = "/home/supatil/sosreport-satellite65-2019-02-17-olenjmp"
+	@sosreport_path = ARGV[0]
 
 	options = {}
 
