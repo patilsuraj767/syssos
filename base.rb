@@ -78,5 +78,12 @@
 				return File.read(path)
 			end
 
+			# FIPS mode
+
+			def fips_status
+				path = @sosreport_path + "/proc/sys/crypto/fips_enabled"
+				return File.read(path)
+			end
+
 		end	
 	end

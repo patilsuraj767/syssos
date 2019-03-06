@@ -5,7 +5,7 @@ require_relative("colors")
 require ('optparse')
 
 	#@sosreport_path = "/home/supatil/sosreport-satellite65-2019-02-17-olenjmp"
-	@sosreport_path = ARGV[0]
+	@sosreport_path = "."
 
 	options = {}
 
@@ -36,6 +36,7 @@ require ('optparse')
 		puts "Satellite Version = #{x.satellite_version}".bold
 		puts "RHEL version = #{x.rhel_version.chomp}".bold
 		puts "Registration URL = #{ x.registered_to }".bold
+		puts "FIPS mode = #{ x.fips_status }".bold
 
 		puts "\n------------------------------- Disk Utilization  -------------------------------".red.bold
 		x.disk_utilization
@@ -61,6 +62,7 @@ require ('optparse')
 		puts "RHEL version = #{x.rhel_version.chomp}".bold
 		puts "Registration URL = #{ x.registered_to }".bold
 		puts "Puppet Version = #{ foreman.version_puppet }".bold
+		puts "Pulp workers = #{ foreman.pulp_workers_count }".bold
 		puts "\n\n"
 
 		
