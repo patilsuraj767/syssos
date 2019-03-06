@@ -41,7 +41,7 @@ module Foreman
 
 
 		def pulp_workers_count
-			path = @sosreport_path + "/sos_commands/foreman/foreman-debug/etc/default/pulp_workers"
+			path = @sosreport_path + "/etc/default/pulp_workers"
 			File.foreach(path) do |line|
 				if line.match("^PULP_CONCURRENCY")
 	  				return line[17...-1]
